@@ -24,7 +24,7 @@ function Login() {
     setError('');
     try {
       const response = await loginRequest(loginFormData);
-      login(response.accessToken);
+      login(response.accessToken, response.role);
       navigate('/dashboard');
     } catch (err: unknown) {
       if (err instanceof Error) {

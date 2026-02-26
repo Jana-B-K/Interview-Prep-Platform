@@ -6,10 +6,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(
     Boolean(localStorage.getItem('token')),
   );
+  const [role, setRole] = useState('');
 
-  const login = (token: string) => {
+  const login = (token: string, role: string) => {
     localStorage.setItem('token', token);
     setIsAuthenticated(true);
+    setRole(role)
   };
 
   const logout = () => {
@@ -18,7 +20,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, role }}>
       {children}
     </AuthContext.Provider>
   );
