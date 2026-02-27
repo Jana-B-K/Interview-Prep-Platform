@@ -1,8 +1,9 @@
 import type { ChangeEvent, FormEvent } from 'react';
+import { isAxiosError } from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
-import { register as registerRequest ,login as loginRequest } from '../services/auth.service';
+import { register as registerRequest, login as loginRequest } from '../services/auth.service';
 import '../css/Register.css';
 
 type UserRole = 'admin' | 'user';
@@ -37,6 +38,10 @@ function Register() {
       login(response.accessToken, response.user.role);
       navigate('/dashboard');
     } catch (err: unknown) {
+      if (isAxiosError<{ message?: string }>(err)) {
+        setError(err.response?.data?.message || err.message || 'Registration failed');
+        return;
+      }
       if (err instanceof Error) {
         setError(err.message);
         return;
