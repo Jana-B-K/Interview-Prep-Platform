@@ -1,12 +1,20 @@
 import mongoose from "mongoose";
 
 const connectDB = async () => {
-    try{
-        await mongoose.connect(process.env.MONGODB_URI);
-        console.log("MongoDB connected")
+    const mongoUri = process.env.MONGODB_URI;
+
+    if (!mongoUri) {
+        throw new Error("MONGODB_URI is not set");
+    }
+
+    try {
+        await mongoose.connect(mongoUri, {
+            serverSelectionTimeoutMS: 10000,
+        });
+        console.log("MongoDB connected");
     } catch (err) {
-        console.error('MongoDB connection failed');
-        process.exit(1);
+        console.error("MongoDB connection failed:", err instanceof Error ? err.message : err);
+        throw err;
     }
 };
 

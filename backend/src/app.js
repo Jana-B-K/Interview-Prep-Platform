@@ -11,6 +11,9 @@ import { authenticate } from './middlewares/auth.middleware.js';
 const app = express();
 
 app.use(express.json());
+app.get('/health', (_req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 
 const allowedOrigins = (process.env.FRONTEND_ORIGINS || 'http://localhost:5173,http://127.0.0.1:5173,http://10.0.4.42:5173')
   .split(',')
