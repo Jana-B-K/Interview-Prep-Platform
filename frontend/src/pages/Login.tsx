@@ -1,4 +1,5 @@
 import type { ChangeEvent, FormEvent } from 'react';
+import { isAxiosError } from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
@@ -27,6 +28,10 @@ function Login() {
       login(response.accessToken, response.user.role);
       navigate('/dashboard');
     } catch (err: unknown) {
+      if (isAxiosError<{ message?: string }>(err)) {
+        setError(err.response?.data?.message || err.message || 'Login failed');
+        return;
+      }
       if (err instanceof Error) {
         setError(err.message);
         return;
