@@ -16,6 +16,9 @@ interface RegisterPayload {
 
 interface LoginResponse {
   accessToken: string;
+  user: {
+    role: UserRole;
+  };
 }
 
 export const login = async (data: LoginPayload): Promise<LoginResponse> => {

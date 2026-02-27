@@ -6,17 +6,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(
     Boolean(localStorage.getItem('token')),
   );
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState(localStorage.getItem('role') ?? '');
 
   const login = (token: string, role: string) => {
     localStorage.setItem('token', token);
+    localStorage.setItem('role', role);
     setIsAuthenticated(true);
-    setRole(role)
+    setRole(role);
   };
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
     setIsAuthenticated(false);
+    setRole('');
   };
 
   return (

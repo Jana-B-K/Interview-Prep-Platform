@@ -34,7 +34,7 @@ function Register() {
         email: formData.email,
         password: formData.password,
       });
-      login(response.accessToken);
+      login(response.accessToken, response.user.role);
       navigate('/dashboard');
     } catch (err: unknown) {
       if (err instanceof Error) {
