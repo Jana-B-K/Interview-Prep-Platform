@@ -1,11 +1,8 @@
 import axios from 'axios';
 
 const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/+$/, '');
-const fallbackBaseUrl =
-  window.location.hostname === 'localhost' ? 'http://localhost:4029' : '';
-
 export const API = axios.create({
-    baseURL: configuredBaseUrl || fallbackBaseUrl,
+    baseURL: configuredBaseUrl 
 });
 
 API.interceptors.request.use((config) => {
